@@ -1,0 +1,127 @@
+html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="我們的小白板" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#fff9f5" />
+  <title>我們的小白板 💕 兩人專屬互動空間</title> 
+
+  <!-- 動態生成 PWA Manifest 與桌面圖示 -->
+  <script>
+    (function setupPWA() {
+      const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ff8577"/>
+            <stop offset="100%" stop-color="#ff5e7e"/>
+          </linearGradient>
+        </defs>
+        <rect width="512" height="512" rx="115" fill="url(#g)"/>
+        <rect x="64" y="88" width="384" height="336" rx="44" fill="#fffaf7"/>
+        <path d="M256 332s-88-54-88-114c0-32 25-56 54-56 18 0 34 9 34 24 0-15 16-24 34-24 29 0 54 24 54 56 0 60-88 114-88 114z" fill="#ff6b6b"/>
+      </svg>`;
+      const iconUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgIcon))); 
+
+      const appleIcon = document.createElement('link');
+      appleIcon.rel = 'apple-touch-icon';
+      appleIcon.href = iconUrl;
+      document.head.appendChild(appleIcon); 
+
+      const manifest = {
+        name: '我們的小白板 - 兩人專屬空間',
+        short_name: '我們的小白板',
+        start_url: '.',
+        display: 'standalone',
+        background_color: '#fff9f5',
+        theme_color: '#fff9f5',
+        icons: [{ src: iconUrl, sizes: '512x512', type: 'image/svg+xml' }]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = URL.createObjectURL(manifestBlob);
+      document.head.appendChild(manifestLink);
+    })();
+  </script> 
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet"> 
+
+  <style>
+    :root {
+      --bg-cream: #fff9f5;
+      --coral-primary: #ff6b6b;
+      --coral-soft: #fff0ed;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-cream);
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      color: #2d2624;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* 畫布區域防止觸控捲動 */
+    #board-canvas {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .sticky-card {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .sticky-card.dragging {
+      z-index: 40;
+      transform: scale(1.04) rotate(1deg);
+      box-shadow: 0 18px 30px -8px rgba(0, 0, 0, 0.18);
+    }
+    /* 隱藏捲軸 */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* 脈衝呼吸燈 */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .live-dot {
+      animation: pulse-dot 1.8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24"> 
+
+  <!-- ==================== 隱私密碼鎖遮罩 ==================== -->
+  <div id="lock-screen" class="fixed inset-0 z-50 bg-[#fff9f5] flex flex-col items-center justify-center p-6 transition-opacity duration-300">
+    <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#ff8577] to-[#ff5e7e] text-white flex items-center justify-center shadow-lg shadow-rose-200 mb-4">
+      <i data-lucide="heart" class="w-8 h-8 fill-current"></i>
+    </div>
+    <h1 class="text-2xl font-black text-stone-800 tracking-tight mb-1">我們的小白板</h1>
+    <p class="text-xs text-stone-500 mb-6">輸入兩人專屬密碼解鎖（預設 0520）</p> 
+
+    <!-- 密碼圓點顯示 -->
+    <div id="pin-dots" class="flex gap-4 mb-8">
+      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
+      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
+      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
+      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
+    </div> 
+
+    <!-- 數字鍵盤 -->
+    <div class="grid grid-cols-3 gap-3.5 max-w-[260px] w-full">
+      <button data-num="1" class="pin-btn h-14 rounded-
