@@ -1,127 +1,1227 @@
-html
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="我們的小白板" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#fff9f5" />
-  <title>我們的小白板 💕 兩人專屬互動空間</title> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="我們的小白板" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#fff9f5" />
+  <title>我們的小白板 💕 兩人專屬互動空間</title>
 
-  <!-- 動態生成 PWA Manifest 與桌面圖示 -->
-  <script>
-    (function setupPWA() {
-      const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ff8577"/>
-            <stop offset="100%" stop-color="#ff5e7e"/>
-          </linearGradient>
-        </defs>
-        <rect width="512" height="512" rx="115" fill="url(#g)"/>
-        <rect x="64" y="88" width="384" height="336" rx="44" fill="#fffaf7"/>
-        <path d="M256 332s-88-54-88-114c0-32 25-56 54-56 18 0 34 9 34 24 0-15 16-24 34-24 29 0 54 24 54 56 0 60-88 114-88 114z" fill="#ff6b6b"/>
-      </svg>`;
-      const iconUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgIcon))); 
+  <script>
+    (function setupPWA() {
+      const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ff8577"/>
+            <stop offset="100%" stop-color="#ff5e7e"/>
+          </linearGradient>
+        </defs>
+        <rect width="512" height="512" rx="115" fill="url(#g)"/>
+        <rect x="64" y="88" width="384" height="336" rx="44" fill="#fffaf7"/>
+        <path d="M256 332s-88-54-88-114c0-32 25-56 54-56 18 0 34 9 34 24 0-15 16-24 34-24 29 0 54 24 54 56 0 60-88 114-88 114z" fill="#ff6b6b"/>
+      </svg>`;
+      const iconUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgIcon)));
 
-      const appleIcon = document.createElement('link');
-      appleIcon.rel = 'apple-touch-icon';
-      appleIcon.href = iconUrl;
-      document.head.appendChild(appleIcon); 
+      const appleIcon = document.createElement('link');
+      appleIcon.rel = 'apple-touch-icon';
+      appleIcon.href = iconUrl;
+      document.head.appendChild(appleIcon);
 
-      const manifest = {
-        name: '我們的小白板 - 兩人專屬空間',
-        short_name: '我們的小白板',
-        start_url: '.',
-        display: 'standalone',
-        background_color: '#fff9f5',
-        theme_color: '#fff9f5',
-        icons: [{ src: iconUrl, sizes: '512x512', type: 'image/svg+xml' }]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-      const manifestLink = document.createElement('link');
-      manifestLink.rel = 'manifest';
-      manifestLink.href = URL.createObjectURL(manifestBlob);
-      document.head.appendChild(manifestLink);
-    })();
-  </script> 
+      const manifest = {
+        name: '我們的小白板 - 兩人專屬空間',
+        short_name: '我們的小白板',
+        start_url: '.',
+        display: 'standalone',
+        background_color: '#fff9f5',
+        theme_color: '#fff9f5',
+        icons: [{ src: iconUrl, sizes: '512x512', type: 'image/svg+xml' }]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = URL.createObjectURL(manifestBlob);
+      document.head.appendChild(manifestLink);
+    })();
+  </script>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet"> 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg-cream: #fff9f5;
-      --coral-primary: #ff6b6b;
-      --coral-soft: #fff0ed;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--bg-cream);
-      font-family: 'Inter', 'Noto Sans TC', sans-serif;
-      color: #2d2624;
-      overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
-    /* 畫布區域防止觸控捲動 */
-    #board-canvas {
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    .sticky-card {
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-      transition: box-shadow 0.2s ease, transform 0.15s ease;
-    }
-    .sticky-card.dragging {
-      z-index: 40;
-      transform: scale(1.04) rotate(1deg);
-      box-shadow: 0 18px 30px -8px rgba(0, 0, 0, 0.18);
-    }
-    /* 隱藏捲軸 */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* 脈衝呼吸燈 */
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-    .live-dot {
-      animation: pulse-dot 1.8s infinite ease-in-out;
-    }
-  </style>
+  <style>
+    :root {
+      --bg-cream: #fff9f5;
+      --coral-primary: #ff6b6b;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-cream);
+      font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #2d2624;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* 確保鎖定畫面在任何手機高度與外部樣式未載入時都能正常顯示鍵盤 */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: #fff9f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    #lock-screen.hidden-lock {
+      display: none !important;
+    }
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 260px;
+    }
+    .pin-btn, #pin-backspace {
+      height: 52px;
+      border-radius: 16px;
+      background-color: #ffffff;
+      border: 1px solid #ffe4e6;
+      font-size: 20px;
+      font-weight: 700;
+      color: #44403c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(255, 107, 107, 0.08);
+      cursor: pointer;
+    }
+    .pin-btn:active, #pin-backspace:active {
+      background-color: #fff1f2;
+      transform: scale(0.96);
+    }
+    #board-canvas {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .sticky-card {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .sticky-card.dragging {
+      z-index: 40;
+      transform: scale(1.04) rotate(1deg);
+      box-shadow: 0 18px 30px -8px rgba(0, 0, 0, 0.18);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .live-dot {
+      animation: pulse-dot 1.8s infinite ease-in-out;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col pb-24"> 
+<body class="min-h-screen flex flex-col pb-24">
 
-  <!-- ==================== 隱私密碼鎖遮罩 ==================== -->
-  <div id="lock-screen" class="fixed inset-0 z-50 bg-[#fff9f5] flex flex-col items-center justify-center p-6 transition-opacity duration-300">
-    <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#ff8577] to-[#ff5e7e] text-white flex items-center justify-center shadow-lg shadow-rose-200 mb-4">
-      <i data-lucide="heart" class="w-8 h-8 fill-current"></i>
-    </div>
-    <h1 class="text-2xl font-black text-stone-800 tracking-tight mb-1">我們的小白板</h1>
-    <p class="text-xs text-stone-500 mb-6">輸入兩人專屬密碼解鎖（預設 0520）</p> 
+  <!-- ==================== 隱私密碼鎖遮罩 ==================== -->
+  <div id="lock-screen">
+    <div style="width:56px;height:56px;border-radius:20px;background:linear-gradient(135deg,#ff8577,#ff5e7e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:10px;box-shadow:0 8px 16px rgba(255,94,126,0.25);">
+      ❤️
+    </div>
+    <h1 style="font-size:22px;font-weight:900;color:#292524;margin:0 0 4px 0;">我們的小白板</h1>
+    <p style="font-size:12px;color:#78716c;margin:0 0 18px 0;">輸入兩人專屬密碼解鎖（預設 0520）</p>
 
-    <!-- 密碼圓點顯示 -->
-    <div id="pin-dots" class="flex gap-4 mb-8">
-      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
-      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
-      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
-      <span class="w-4 h-4 rounded-full border-2 border-rose-300 bg-transparent transition-all"></span>
-    </div> 
+    <!-- 密碼圓點顯示 -->
+    <div id="pin-dots" style="display:flex;gap:14px;margin-bottom:20px;">
+      <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;"></span>
+      <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;"></span>
+      <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;"></span>
+      <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;"></span>
+    </div>
 
-    <!-- 數字鍵盤 -->
-    <div class="grid grid-cols-3 gap-3.5 max-w-[260px] w-full">
-      <button data-num="1" class="pin-btn h-14 rounded-
+    <!-- 數字鍵盤 -->
+    <div class="keypad-grid">
+      <button type="button" data-num="1" class="pin-btn">1</button>
+      <button type="button" data-num="2" class="pin-btn">2</button>
+      <button type="button" data-num="3" class="pin-btn">3</button>
+      <button type="button" data-num="4" class="pin-btn">4</button>
+      <button type="button" data-num="5" class="pin-btn">5</button>
+      <button type="button" data-num="6" class="pin-btn">6</button>
+      <button type="button" data-num="7" class="pin-btn">7</button>
+      <button type="button" data-num="8" class="pin-btn">8</button>
+      <button type="button" data-num="9" class="pin-btn">9</button>
+      <div style="height:52px;"></div>
+      <button type="button" data-num="0" class="pin-btn">0</button>
+      <button type="button" id="pin-backspace" style="background-color:#fff1f2;color:#f43f5e;">⌫</button>
+    </div>
+    <p id="pin-error" style="font-size:12px;color:#f43f5e;font-weight:600;margin-top:12px;height:16px;"></p>
+  </div>
+
+  <!-- ==================== 頂部導覽與同步狀態列 ==================== -->
+  <header class="sticky top-0 z-30 bg-[#fff9f5]/90 backdrop-blur-md border-b border-rose-100/80 px-4 py-2.5">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <button id="btn-open-settings-badge" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-rose-100 shadow-2xs text-xs font-semibold">
+        <span id="sync-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 live-dot"></span>
+        <span id="sync-status-text" class="text-stone-700">單機體驗模式</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <button id="btn-switch-role" title="切換目前使用身份" class="px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 text-xs font-bold flex items-center gap-1 active:scale-95 transition">
+          <span id="current-role-label">👦 我</span>
+          <i data-lucide="repeat" class="w-3 h-3"></i>
+        </button>
+        <button id="btn-export-widget" title="匯出高清圖卡" class="p-2 rounded-full bg-white border border-rose-100 text-stone-600 hover:bg-rose-50 transition">
+          <i data-lucide="download" class="w-4 h-4"></i>
+        </button>
+        <button id="btn-open-settings" title="雲端同步與密碼設定" class="p-2 rounded-full bg-white border border-rose-100 text-stone-600 hover:bg-rose-50 transition">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 主內容容器 ==================== -->
+  <main class="max-w-xl w-full mx-auto px-4 pt-3 flex flex-col gap-4">
+
+    <!-- 1. 高對比「桌面小工具友善看板卡片」 -->
+    <section id="widget-dashboard-card" class="bg-white rounded-3xl p-4 shadow-sm border-2 border-rose-100 relative overflow-hidden">
+      <div class="flex items-center justify-between border-b border-rose-100/80 pb-3 mb-3">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-rose-400 block">TOGETHER</span>
+          <div class="flex items-baseline gap-1.5">
+            <span class="text-sm font-bold text-stone-600">在一起第</span>
+            <span id="days-counter" class="text-3xl font-black text-[#ff5e7e] tracking-tight">100</span>
+            <span class="text-sm font-bold text-stone-600">天</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <span id="last-sync-time" class="text-[11px] text-stone-400 block">尚未雲端連線</span>
+          <span id="partner-typing-badge" class="hidden inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-rose-500 text-white text-[11px] font-bold animate-bounce">
+            ✏️ 對方正在畫畫...
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5 mb-3">
+        <div class="rounded-2xl bg-[#fff5f2] p-2.5 border border-rose-100">
+          <div class="flex items-center justify-between mb-1">
+            <span id="name-p1" class="text-xs font-bold text-stone-500">👦 男友</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-white text-rose-400 font-semibold">狀態</span>
+          </div>
+          <div id="status-p1" class="text-base font-extrabold text-stone-800 truncate">想你中 🥰</div>
+        </div>
+        <div class="rounded-2xl bg-[#f4f8ff] p-2.5 border border-sky-100">
+          <div class="flex items-center justify-between mb-1">
+            <span id="name-p2" class="text-xs font-bold text-stone-500">👧 女友</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-white text-sky-500 font-semibold">狀態</span>
+          </div>
+          <div id="status-p2" class="text-base font-extrabold text-stone-800 truncate">上課中 🏫</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 mb-2.5">
+        <button data-status="想你中 🥰" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-xs font-bold text-stone-700 transition">想你中 🥰</button>
+        <button data-status="上課中 🏫" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-rose-50 text-xs font-bold text-stone-700 transition">上課中 🏫</button>
+        <button data-status="運動中 💪" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-rose-50 text-xs font-bold text-stone-700 transition">運動中 💪</button>
+        <button data-status="開車中 🚗" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-rose-50 text-xs font-bold text-stone-700 transition">開車中 🚗</button>
+        <button data-status="吃飯中 🍱" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-rose-50 text-xs font-bold text-stone-700 transition">吃飯中 🍱</button>
+        <button data-status="睡覺中 💤" class="status-chip shrink-0 px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-rose-50 text-xs font-bold text-stone-700 transition">睡覺中 💤</button>
+      </div>
+
+      <div class="rounded-2xl bg-amber-50/90 border border-amber-200/80 px-3 py-2 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-base shrink-0">📌</span>
+          <p id="pinned-note-display" class="text-sm font-bold text-stone-800 truncate">今天也要開心喔！記得多喝水 💕</p>
+        </div>
+        <button id="btn-edit-pinned" class="shrink-0 text-xs font-bold text-amber-700 bg-amber-200/60 hover:bg-amber-200 px-2.5 py-1 rounded-lg transition">修改</button>
+      </div>
+    </section>
+
+    <!-- 2. 互動塗鴉白板區 -->
+    <section class="bg-white rounded-3xl p-3 shadow-sm border-2 border-rose-100 flex flex-col gap-2.5">
+      <div class="flex items-center justify-between px-1">
+        <div class="flex items-center gap-1.5">
+          <span class="text-sm font-extrabold text-stone-800">🎨 雙人即時塗鴉板</span>
+          <span id="board-save-badge" class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">已同步</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <button id="btn-board-undo" title="上一步" class="p-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 disabled:opacity-40 transition">
+            <i data-lucide="undo-2" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-board-clear" title="清空畫布" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-500 transition">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-sync-now" class="px-2.5 py-1 rounded-xl bg-[#ff6b6b] hover:bg-[#ff5252] text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition">
+            <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
+            <span>立即同步</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-white">
+        <canvas id="board-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+        <div id="brush-colors" class="flex items-center gap-1.5"></div>
+
+        <div class="flex items-center gap-1 bg-stone-100 p-1 rounded-xl">
+          <button data-btool="pen" class="btool-btn active px-2 py-1 rounded-lg bg-white text-rose-500 shadow-2xs text-xs font-bold flex items-center gap-1">
+            <i data-lucide="pen-tool" class="w-3.5 h-3.5"></i> 畫筆
+          </button>
+          <button data-btool="highlighter" class="btool-btn px-2 py-1 rounded-lg text-stone-600 text-xs font-bold flex items-center gap-1">
+            <i data-lucide="highlighter" class="w-3.5 h-3.5"></i> 螢光
+          </button>
+          <button data-btool="eraser" class="btool-btn px-2 py-1 rounded-lg text-stone-600 text-xs font-bold flex items-center gap-1">
+            <i data-lucide="eraser" class="w-3.5 h-3.5"></i> 擦除
+          </button>
+          <button id="btn-cycle-size" title="切換筆刷粗細" class="px-2 py-1 rounded-lg bg-white/80 text-stone-700 text-xs font-mono font-bold ml-0.5">
+            6px
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 彩色便利貼留言板 -->
+    <section class="bg-white rounded-3xl p-4 shadow-sm border-2 border-rose-100 flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-extrabold text-stone-800">💌 彩色便利貼留言牆</h2>
+          <p class="text-[11px] text-stone-400">可拖曳排列、雙擊文字編輯、點愛心回應</p>
+        </div>
+        <button id="btn-add-sticky" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-stone-900 text-xs font-extrabold flex items-center gap-1 shadow-2xs active:scale-95 transition">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>貼一張</span>
+        </button>
+      </div>
+
+      <div id="sticky-board-area" class="relative w-full h-[290px] rounded-2xl bg-[#fffcf8] border border-dashed border-rose-200 overflow-hidden"></div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 設定與 Firebase 雲端精靈彈窗 ==================== -->
+  <div id="settings-modal" class="fixed inset-0 z-50 bg-stone-900/50 backdrop-blur-xs hidden items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto p-5 shadow-2xl border border-rose-100">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
+        <h3 class="text-lg font-black text-stone-800 flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-5 h-5 text-rose-500"></i>
+          專屬設定與雲端自動同步
+        </h3>
+        <button id="btn-close-settings" class="p-1.5 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-4 text-sm">
+        <div class="bg-[#fff9f5] p-3.5 rounded-2xl border border-rose-100 flex flex-col gap-3">
+          <span class="text-xs font-extrabold text-rose-500 uppercase tracking-wider">1. 兩人專屬檔案與密碼</span>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="text-xs font-bold text-stone-600 block mb-1">角色 A 暱稱</label>
+              <input id="set-name-p1" type="text" class="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-sm font-medium" placeholder="👦 男友">
+            </div>
+            <div>
+              <label class="text-xs font-bold text-stone-600 block mb-1">角色 B 暱稱</label>
+              <input id="set-name-p2" type="text" class="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-sm font-medium" placeholder="👧 女友">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="text-xs font-bold text-stone-600 block mb-1">在一起紀念日</label>
+              <input id="set-anniversary" type="date" class="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-sm font-medium">
+            </div>
+            <div>
+              <label class="text-xs font-bold text-stone-600 block mb-1">4 位數密碼鎖 (留空關閉)</label>
+              <input id="set-pin" type="text" maxlength="4" pattern="[0-9]*" inputmode="numeric" class="w-full px-3 py-2 rounded-xl border border-stone-200 bg-white text-sm font-mono font-bold" placeholder="0520">
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-sky-50/70 p-3.5 rounded-2xl border border-sky-100 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-sky-700 uppercase tracking-wider">2. Firebase 雲端即時同步 (免費)</span>
+            <button id="btn-toggle-guide" type="button" class="text-xs font-bold text-sky-600 underline">3 分鐘設定教學</button>
+          </div>
+
+          <div id="firebase-guide-box" class="hidden bg-white p-3 rounded-xl border border-sky-200 text-xs text-stone-600 leading-relaxed space-y-1.5">
+            <p class="font-bold text-stone-800">只要 4 步就能免費開啟雙手機即時自動同步：</p>
+            <ol class="list-decimal list-inside space-y-1">
+              <li>前往 <span class="font-mono text-sky-600">console.firebase.google.com</span> 建立免費專案。</li>
+              <li>左側選單點「建構 ＞ <b>Realtime Database</b>」＞ 建立資料庫（安全規則先選<b>測試模式</b>）。</li>
+              <li>點左上角齒輪「專案設定」＞ 下方新增「網頁 App (&lt;/&gt;)」，複製裡面的 <code class="bg-stone-100 px-1">apiKey</code>、<code class="bg-stone-100 px-1">databaseURL</code>、<code class="bg-stone-100 px-1">projectId</code>。</li>
+              <li>兩支手機填入<b>相同的貼上內容</b>與<b>相同的房間代碼</b>，按儲存即可即時同步！</li>
+            </ol>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-stone-600 block mb-1">專屬房間代碼 (Room ID)</label>
+            <input id="set-room-id" type="text" class="w-full px-3 py-2 rounded-xl border border-sky-200 bg-white text-sm font-mono font-bold" placeholder="例如：love-520-room">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-stone-600 block mb-1">貼上 Firebase 設定 (支援直接貼整段 firebaseConfig 程式碼)</label>
+            <textarea id="set-firebase-raw" rows="4" class="w-full px-3 py-2 rounded-xl border border-sky-200 bg-white text-xs font-mono" placeholder='可直接貼上整段 const firebaseConfig = { apiKey: "...", databaseURL: "...", projectId: "..." } 或 JSON'></textarea>
+          </div>
+        </div>
+
+        <button id="btn-save-settings" class="w-full py-3 rounded-2xl bg-gradient-to-r from-[#ff8577] to-[#ff5e7e] text-white font-extrabold text-sm shadow-md active:scale-98 transition">
+          儲存設定並立即連線
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 編輯文字通用彈窗 ==================== -->
+  <div id="text-modal" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl border border-rose-100">
+      <h3 id="text-modal-title" class="text-base font-extrabold text-stone-800 mb-3">編輯便利貼內容</h3>
+      <textarea id="text-modal-input" rows="3" maxlength="80" class="w-full p-3 rounded-2xl border border-rose-200 bg-[#fff9f5] text-sm font-medium focus:outline-none focus:border-rose-400" placeholder="寫下想對另一半說的話..."></textarea>
+      <div id="sticky-color-picker" class="flex items-center gap-2 mt-3">
+        <button data-scolor="#fef08a" class="scolor-btn w-7 h-7 rounded-full bg-[#fef08a] border-2 border-stone-400"></button>
+        <button data-scolor="#fbcfe8" class="scolor-btn w-7 h-7 rounded-full bg-[#fbcfe8] border border-stone-200"></button>
+        <button data-scolor="#bae6fd" class="scolor-btn w-7 h-7 rounded-full bg-[#bae6fd] border border-stone-200"></button>
+        <button data-scolor="#bbf7d0" class="scolor-btn w-7 h-7 rounded-full bg-[#bbf7d0] border border-stone-200"></button>
+        <button data-scolor="#fed7aa" class="scolor-btn w-7 h-7 rounded-full bg-[#fed7aa] border border-stone-200"></button>
+      </div>
+      <div class="flex justify-end gap-2 mt-4">
+        <button id="btn-text-cancel" class="px-4 py-2 rounded-xl text-xs font-bold text-stone-500 hover:bg-stone-100">取消</button>
+        <button id="btn-text-save" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#ff6b6b] text-white shadow-xs">確定儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-stone-800/95 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
+    已更新
+  </div>
+
+  <!-- ==================== 密碼鎖純原生即時啟動腳本（不依賴外部網路模組） ==================== -->
+  <script>
+    (function initFastLock() {
+      let enteredPin = '';
+      const lockScreen = document.getElementById('lock-screen');
+      const pinDots = document.querySelectorAll('#pin-dots span');
+
+      function getTargetPin() {
+        try {
+          const saved = JSON.parse(localStorage.getItem('couple_board_config_v1') || '{}');
+          return saved.pin !== undefined ? saved.pin : '0520';
+        } catch (_) {
+          return '0520';
+        }
+      }
+
+      if (!getTargetPin()) {
+        lockScreen.classList.add('hidden-lock');
+      }
+
+      function updateDots() {
+        pinDots.forEach((dot, idx) => {
+          if (idx < enteredPin.length) {
+            dot.style.backgroundColor = '#ff5e7e';
+            dot.style.borderColor = '#ff5e7e';
+            dot.style.transform = 'scale(1.15)';
+          } else {
+            dot.style.backgroundColor = 'transparent';
+            dot.style.borderColor = '#fda4af';
+            dot.style.transform = 'scale(1)';
+          }
+        });
+      }
+
+      document.querySelectorAll('.pin-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (enteredPin.length >= 4) return;
+          enteredPin += btn.dataset.num;
+          updateDots();
+          document.getElementById('pin-error').textContent = '';
+
+          if (enteredPin.length === 4) {
+            if (enteredPin === getTargetPin()) {
+              lockScreen.classList.add('hidden-lock');
+            } else {
+              document.getElementById('pin-error').textContent = '密碼不正確，請再試一次';
+              setTimeout(() => {
+                enteredPin = '';
+                updateDots();
+              }, 350);
+            }
+          }
+        });
+      });
+
+      document.getElementById('pin-backspace').addEventListener('click', () => {
+        enteredPin = enteredPin.slice(0, -1);
+        updateDots();
+      });
+    })();
+  </script>
+
+  <!-- ==================== 應用程式主邏輯（整合 Firebase Realtime Database） ==================== -->
+  <script type="module">
+    import { initializeApp, deleteApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+    if (window.lucide) lucide.createIcons();
+
+    const STORAGE_KEY = 'couple_board_state_v1';
+    const CONFIG_KEY = 'couple_board_config_v1';
+
+    const BRUSH_COLORS = ['#2d2624', '#ff5e7e', '#ff8c42', '#eab308', '#22c55e', '#3b82f6', '#a855f7', '#ffffff'];
+    const BRUSH_SIZES = [3, 6, 12, 20];
+
+    let config = {
+      nameP1: '👦 男友',
+      nameP2: '👧 女友',
+      myRole: 'p1',
+      anniversary: new Date(Date.now() - 99 * 86400000).toISOString().split('T')[0],
+      pin: '0520',
+      roomId: 'our-secret-room',
+      firebaseConfig: null
+    };
+
+    let boardState = {
+      statusP1: '想你中 🥰',
+      statusP2: '上課中 🏫',
+      pinnedNote: '今天也要開心喔！記得多喝水 💕',
+      strokes: [],
+      stickies: [
+        { id: 's1', x: 18, y: 18, text: '下班記得跟我說一聲～', color: '#fef08a', likes: 1, author: 'p2' },
+        { id: 's2', x: 165, y: 85, text: '週末一起去吃好吃的！🍜', color: '#fbcfe8', likes: 2, author: 'p1' }
+      ],
+      typingBy: null,
+      typingAt: 0,
+      updatedAt: Date.now()
+    };
+
+    let fbDb = null;
+    let isRemoteUpdating = false;
+    let autoSyncTimer = null;
+
+    const drawState = {
+      tool: 'pen',
+      color: '#ff5e7e',
+      sizeIndex: 1,
+      isDrawing: false,
+      currentStroke: null
+    };
+
+    function loadLocalData() {
+      try {
+        const savedCfg = localStorage.getItem(CONFIG_KEY);
+        if (savedCfg) config = { ...config, ...JSON.parse(savedCfg) };
+        const savedBoard = localStorage.getItem(STORAGE_KEY);
+        if (savedBoard) boardState = { ...boardState, ...JSON.parse(savedBoard) };
+      } catch (e) {}
+    }
+
+    function saveLocalData() {
+      try {
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(boardState));
+      } catch (e) {}
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.remove('opacity-0');
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.classList.add('opacity-0'), 2200);
+    }
+
+    function parseFirebaseConfigInput(rawText) {
+      if (!rawText || !rawText.trim()) return null;
+      const trimmed = rawText.trim();
+      try {
+        return JSON.parse(trimmed);
+      } catch (_) {
+        const extract = (key) => {
+          const regex = new RegExp(`["']?${key}["']?\\s*:\\s*["']([^"']+)["']`);
+          const m = trimmed.match(regex);
+          return m ? m[1] : '';
+        };
+        const apiKey = extract('apiKey');
+        const databaseURL = extract('databaseURL');
+        const projectId = extract('projectId');
+        const authDomain = extract('authDomain') || (projectId ? `${projectId}.firebaseapp.com` : '');
+        if (apiKey && databaseURL) {
+          return { apiKey, authDomain, databaseURL, projectId };
+        }
+        return null;
+      }
+    }
+
+    async function connectFirebase() {
+      const dot = document.getElementById('sync-dot');
+      const statusText = document.getElementById('sync-status-text');
+
+      if (!config.firebaseConfig || !config.firebaseConfig.databaseURL || !config.roomId) {
+        fbDb = null;
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 live-dot';
+        statusText.textContent = '單機體驗模式 (點此設定雲端)';
+        return;
+      }
+
+      try {
+        for (const app of getApps()) {
+          await deleteApp(app);
+        }
+        const app = initializeApp(config.firebaseConfig);
+        fbDb = getDatabase(app);
+
+        const roomRef = ref(fbDb, `couple_rooms/${config.roomId.trim()}`);
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 live-dot';
+        statusText.textContent = `雲端即時連線中 (${config.roomId})`;
+
+        onValue(roomRef, (snapshot) => {
+          const remoteData = snapshot.val();
+          if (!remoteData) {
+            pushStateToCloud(true);
+            return;
+          }
+          isRemoteUpdating = true;
+          boardState = {
+            statusP1: remoteData.statusP1 || boardState.statusP1,
+            statusP2: remoteData.statusP2 || boardState.statusP2,
+            pinnedNote: remoteData.pinnedNote !== undefined ? remoteData.pinnedNote : boardState.pinnedNote,
+            strokes: remoteData.strokes || [],
+            stickies: remoteData.stickies || [],
+            typingBy: remoteData.typingBy || null,
+            typingAt: remoteData.typingAt || 0,
+            updatedAt: remoteData.updatedAt || Date.now()
+          };
+          saveLocalData();
+          refreshAllUI();
+          isRemoteUpdating = false;
+        }, () => {
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-rose-500';
+          statusText.textContent = '連線失敗，請檢查設定';
+        });
+      } catch (err) {
+        fbDb = null;
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-rose-500';
+        statusText.textContent = '設定格式錯誤';
+      }
+    }
+
+    function pushStateToCloud(immediate = false) {
+      boardState.updatedAt = Date.now();
+      saveLocalData();
+      updateSyncBadge('同步中...');
+
+      if (!fbDb || isRemoteUpdating) {
+        updateSyncBadge('已存於本機');
+        return;
+      }
+
+      clearTimeout(autoSyncTimer);
+      const executePush = () => {
+        const roomRef = ref(fbDb, `couple_rooms/${config.roomId.trim()}`);
+        set(roomRef, { ...boardState, typingBy: null }).then(() => {
+          updateSyncBadge('雲端已同步 ✓');
+          refreshTimestampUI();
+        }).catch(() => {
+          updateSyncBadge('同步失敗');
+        });
+      };
+
+      if (immediate) executePush();
+      else autoSyncTimer = setTimeout(executePush, 900);
+    }
+
+    function notifyPartnerTyping() {
+      if (!fbDb) return;
+      const now = Date.now();
+      if (now - (boardState._lastTypingSent || 0) < 1500) return;
+      boardState._lastTypingSent = now;
+      const roomRef = ref(fbDb, `couple_rooms/${config.roomId.trim()}`);
+      update(roomRef, { typingBy: config.myRole, typingAt: now }).catch(() => {});
+    }
+
+    function updateSyncBadge(text) {
+      document.getElementById('board-save-badge').textContent = text;
+    }
+
+    function refreshTimestampUI() {
+      const d = new Date(boardState.updatedAt || Date.now());
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      document.getElementById('last-sync-time').textContent = `最後更新 ${hh}:${mm}`;
+    }
+
+    function refreshAllUI() {
+      const start = new Date(config.anniversary);
+      const today = new Date();
+      const diffDays = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+      document.getElementById('days-counter').textContent = diffDays;
+
+      document.getElementById('name-p1').textContent = config.nameP1;
+      document.getElementById('name-p2').textContent = config.nameP2;
+      document.getElementById('current-role-label').textContent =
+        config.myRole === 'p1' ? config.nameP1 : config.nameP2;
+
+      document.getElementById('status-p1').textContent = boardState.statusP1;
+      document.getElementById('status-p2').textContent = boardState.statusP2;
+      document.getElementById('pinned-note-display').textContent = boardState.pinnedNote || '點右側修改置頂小語 💕';
+
+      const typingBadge = document.getElementById('partner-typing-badge');
+      const partnerRole = config.myRole === 'p1' ? 'p2' : 'p1';
+      if (boardState.typingBy === partnerRole && (Date.now() - boardState.typingAt < 4000)) {
+        typingBadge.classList.remove('hidden');
+      } else {
+        typingBadge.classList.add('hidden');
+      }
+
+      refreshTimestampUI();
+      renderCanvas();
+      renderStickies();
+      document.getElementById('btn-board-undo').disabled = boardState.strokes.length === 0;
+    }
+
+    document.getElementById('btn-switch-role').addEventListener('click', () => {
+      config.myRole = config.myRole === 'p1' ? 'p2' : 'p1';
+      saveLocalData();
+      refreshAllUI();
+      showToast(`已切換身份為：${config.myRole === 'p1' ? config.nameP1 : config.nameP2}`);
+    });
+
+    document.querySelectorAll('.status-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newStatus = btn.dataset.status;
+        if (config.myRole === 'p1') boardState.statusP1 = newStatus;
+        else boardState.statusP2 = newStatus;
+        refreshAllUI();
+        pushStateToCloud(true);
+        showToast(`狀態已更新為「${newStatus}」`);
+      });
+    });
+
+    const canvas = document.getElementById('board-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeBoardCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      renderCanvas();
+    }
+    window.addEventListener('resize', resizeBoardCanvas);
+
+    function initBrushColors() {
+      const wrap = document.getElementById('brush-colors');
+      wrap.innerHTML = '';
+      BRUSH_COLORS.forEach(c => {
+        const btn = document.createElement('button');
+        const active = drawState.color === c;
+        btn.className = `w-6 h-6 rounded-full border transition transform ${active ? 'scale-115 ring-2 ring-offset-1 ring-rose-400 border-stone-400' : 'border-stone-300'}`;
+        btn.style.backgroundColor = c;
+        btn.addEventListener('click', () => {
+          drawState.color = c;
+          if (drawState.tool === 'eraser') setBrushTool('pen');
+          initBrushColors();
+        });
+        wrap.appendChild(btn);
+      });
+    }
+
+    function setBrushTool(tool) {
+      drawState.tool = tool;
+      document.querySelectorAll('.btool-btn').forEach(btn => {
+        if (btn.dataset.btool === tool) {
+          btn.classList.add('bg-white', 'text-rose-500', 'shadow-2xs');
+          btn.classList.remove('text-stone-600');
+        } else {
+          btn.classList.remove('bg-white', 'text-rose-500', 'shadow-2xs');
+          btn.classList.add('text-stone-600');
+        }
+      });
+    }
+
+    document.querySelectorAll('.btool-btn').forEach(btn => {
+      btn.addEventListener('click', () => setBrushTool(btn.dataset.btool));
+    });
+
+    document.getElementById('btn-cycle-size').addEventListener('click', (e) => {
+      drawState.sizeIndex = (drawState.sizeIndex + 1) % BRUSH_SIZES.length;
+      e.target.textContent = `${BRUSH_SIZES[drawState.sizeIndex]}px`;
+    });
+
+    function getNormalizedPoint(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: Math.round(((e.clientX - rect.left) / rect.width) * 1000),
+        y: Math.round(((e.clientY - rect.top) / rect.height) * 1000)
+      };
+    }
+
+    function drawSingleStroke(targetCtx, stroke, w, h) {
+      if (!stroke.pts || stroke.pts.length === 0) return;
+      targetCtx.save();
+      targetCtx.lineCap = 'round';
+      targetCtx.lineJoin = 'round';
+      targetCtx.strokeStyle = stroke.color;
+      targetCtx.lineWidth = (stroke.size / 400) * w;
+      if (stroke.tool === 'highlighter') {
+        targetCtx.globalAlpha = 0.35;
+        targetCtx.globalCompositeOperation = 'multiply';
+      }
+
+      targetCtx.beginPath();
+      const p0 = { x: (stroke.pts[0].x / 1000) * w, y: (stroke.pts[0].y / 1000) * h };
+      if (stroke.pts.length === 1) {
+        targetCtx.arc(p0.x, p0.y, targetCtx.lineWidth / 2, 0, Math.PI * 2);
+        targetCtx.fillStyle = stroke.color;
+        targetCtx.fill();
+      } else {
+        targetCtx.moveTo(p0.x, p0.y);
+        for (let i = 1; i < stroke.pts.length; i++) {
+          const px = (stroke.pts[i].x / 1000) * w;
+          const py = (stroke.pts[i].y / 1000) * h;
+          targetCtx.lineTo(px, py);
+        }
+        targetCtx.stroke();
+      }
+      targetCtx.restore();
+    }
+
+    function renderCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      const w = rect.width;
+      const h = rect.height;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#f1e8e4';
+      for (let x = 20; x < w; x += 24) {
+        for (let y = 20; y < h; y += 24) {
+          ctx.beginPath();
+          ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (const s of boardState.strokes) {
+        drawSingleStroke(ctx, s, w, h);
+      }
+      if (drawState.currentStroke) {
+        drawSingleStroke(ctx, drawState.currentStroke, w, h);
+      }
+    }
+
+    function eraseAtNormPoint(nx, ny) {
+      const rad = 36;
+      let changed = false;
+      const nextStrokes = [];
+      for (const s of boardState.strokes) {
+        let segs = [];
+        let cur = [];
+        let cut = false;
+        for (const p of s.pts) {
+          if (Math.hypot(p.x - nx, p.y - ny) <= rad) {
+            cut = true;
+            if (cur.length > 1) segs.push(cur);
+            cur = [];
+          } else {
+            cur.push(p);
+          }
+        }
+        if (cur.length > 1) segs.push(cur);
+        if (cut) {
+          changed = true;
+          segs.forEach(pts => nextStrokes.push({ ...s, pts }));
+        } else {
+          nextStrokes.push(s);
+        }
+      }
+      if (changed) {
+        boardState.strokes = nextStrokes;
+        renderCanvas();
+      }
+      return changed;
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      canvas.setPointerCapture(e.pointerId);
+      const pt = getNormalizedPoint(e);
+      drawState.isDrawing = true;
+      notifyPartnerTyping();
+
+      if (drawState.tool === 'eraser') {
+        drawState._erased = eraseAtNormPoint(pt.x, pt.y);
+        return;
+      }
+
+      const baseSize = BRUSH_SIZES[drawState.sizeIndex];
+      drawState.currentStroke = {
+        tool: drawState.tool,
+        color: drawState.color,
+        size: drawState.tool === 'highlighter' ? Math.max(16, baseSize * 2) : baseSize,
+        pts: [pt]
+      };
+      renderCanvas();
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drawState.isDrawing) return;
+      const pt = getNormalizedPoint(e);
+      notifyPartnerTyping();
+
+      if (drawState.tool === 'eraser') {
+        if (eraseAtNormPoint(pt.x, pt.y)) drawState._erased = true;
+        return;
+      }
+
+      if (drawState.currentStroke) {
+        const last = drawState.currentStroke.pts[drawState.currentStroke.pts.length - 1];
+        if (Math.hypot(pt.x - last.x, pt.y - last.y) >= 3) {
+          drawState.currentStroke.pts.push(pt);
+          renderCanvas();
+        }
+      }
+    });
+
+    function endCanvasPointer(e) {
+      if (!drawState.isDrawing) return;
+      canvas.releasePointerCapture(e.pointerId);
+      drawState.isDrawing = false;
+
+      if (drawState.tool === 'eraser') {
+        if (drawState._erased) {
+          pushStateToCloud(false);
+          drawState._erased = false;
+        }
+        return;
+      }
+
+      if (drawState.currentStroke) {
+        boardState.strokes.push(drawState.currentStroke);
+        drawState.currentStroke = null;
+        document.getElementById('btn-board-undo').disabled = false;
+        renderCanvas();
+        pushStateToCloud(false);
+      }
+    }
+
+    canvas.addEventListener('pointerup', endCanvasPointer);
+    canvas.addEventListener('pointercancel', endCanvasPointer);
+
+    document.getElementById('btn-board-undo').addEventListener('click', () => {
+      if (boardState.strokes.length === 0) return;
+      boardState.strokes.pop();
+      refreshAllUI();
+      pushStateToCloud(true);
+    });
+
+    document.getElementById('btn-board-clear').addEventListener('click', () => {
+      if (boardState.strokes.length === 0) return;
+      boardState.strokes = [];
+      refreshAllUI();
+      pushStateToCloud(true);
+      showToast('畫布已清空');
+    });
+
+    document.getElementById('btn-sync-now').addEventListener('click', () => {
+      pushStateToCloud(true);
+      showToast('已強制推送最新畫面');
+    });
+
+    const stickyArea = document.getElementById('sticky-board-area');
+    let editingStickyTarget = null;
+    let selectedStickyColor = '#fef08a';
+
+    function renderStickies() {
+      stickyArea.innerHTML = '';
+      boardState.stickies.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'sticky-card absolute w-[148px] min-h-[112px] rounded-2xl p-3 shadow-md border border-black/5 flex flex-col justify-between cursor-grab';
+        card.style.left = `${item.x}px`;
+        card.style.top = `${item.y}px`;
+        card.style.backgroundColor = item.color || '#fef08a';
+
+        card.innerHTML = `
+          <div class="text-xs font-bold text-stone-800 leading-snug break-words select-none">${escapeHtml(item.text)}</div>
+          <div class="flex items-center justify-between pt-2 mt-1 border-t border-black/5">
+            <button class="like-btn flex items-center gap-1 text-[11px] font-extrabold text-rose-600 bg-white/70 px-2 py-0.5 rounded-full active:scale-125 transition">
+              ❤️ <span>${item.likes || 0}</span>
+            </button>
+            <div class="flex items-center gap-1">
+              <button class="edit-btn p-1 rounded-lg hover:bg-black/10 text-stone-600 text-xs" title="編輯">✏️</button>
+              <button class="del-btn p-1 rounded-lg hover:bg-rose-500/20 text-rose-600 text-xs" title="刪除">✕</button>
+            </div>
+          </div>
+        `;
+
+        card.querySelector('.like-btn').addEventListener('pointerdown', (e) => e.stopPropagation());
+        card.querySelector('.like-btn').addEventListener('click', () => {
+          item.likes = (item.likes || 0) + 1;
+          renderStickies();
+          pushStateToCloud(true);
+        });
+
+        card.querySelector('.edit-btn').addEventListener('pointerdown', (e) => e.stopPropagation());
+        card.querySelector('.edit-btn').addEventListener('click', () => openTextEditor(item.id, item.text, item.color));
+        card.addEventListener('dblclick', () => openTextEditor(item.id, item.text, item.color));
+
+        card.querySelector('.del-btn').addEventListener('pointerdown', (e) => e.stopPropagation());
+        card.querySelector('.del-btn').addEventListener('click', () => {
+          boardState.stickies = boardState.stickies.filter(s => s.id !== item.id);
+          renderStickies();
+          pushStateToCloud(true);
+        });
+
+        let startX, startY, origX, origY, moved = false;
+        card.addEventListener('pointerdown', (e) => {
+          card.setPointerCapture(e.pointerId);
+          card.classList.add('dragging');
+          startX = e.clientX;
+          startY = e.clientY;
+          origX = item.x;
+          origY = item.y;
+          moved = false;
+        });
+        card.addEventListener('pointermove', (e) => {
+          if (!card.classList.contains('dragging')) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+          const maxX = stickyArea.clientWidth - card.offsetWidth;
+          const maxY = stickyArea.clientHeight - card.offsetHeight;
+          item.x = Math.max(4, Math.min(maxX, origX + dx));
+          item.y = Math.max(4, Math.min(maxY, origY + dy));
+          card.style.left = `${item.x}px`;
+          card.style.top = `${item.y}px`;
+        });
+        card.addEventListener('pointerup', (e) => {
+          if (!card.classList.contains('dragging')) return;
+          card.releasePointerCapture(e.pointerId);
+          card.classList.remove('dragging');
+          if (moved) pushStateToCloud(false);
+        });
+
+        stickyArea.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+
+    const textModal = document.getElementById('text-modal');
+    const textInput = document.getElementById('text-modal-input');
+    const colorPickerRow = document.getElementById('sticky-color-picker');
+
+    function openTextEditor(targetId, initialText, initialColor = '#fef08a') {
+      editingStickyTarget = targetId;
+      textInput.value = initialText || '';
+      selectedStickyColor = initialColor;
+
+      if (targetId === 'pinned') {
+        document.getElementById('text-modal-title').textContent = '修改置頂重點便條';
+        colorPickerRow.classList.add('hidden');
+      } else {
+        document.getElementById('text-modal-title').textContent = targetId === 'new' ? '新增彩色便利貼' : '編輯便利貼內容';
+        colorPickerRow.classList.remove('hidden');
+        updateStickyColorSelection();
+      }
+
+      textModal.classList.remove('hidden');
+      textModal.classList.add('flex');
+      setTimeout(() => textInput.focus(), 50);
+    }
+
+    function updateStickyColorSelection() {
+      document.querySelectorAll('.scolor-btn').forEach(btn => {
+        if (btn.dataset.scolor === selectedStickyColor) {
+          btn.classList.add('border-2', 'border-stone-700', 'scale-110');
+        } else {
+          btn.classList.remove('border-2', 'border-stone-700', 'scale-110');
+        }
+      });
+    }
+
+    document.querySelectorAll('.scolor-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedStickyColor = btn.dataset.scolor;
+        updateStickyColorSelection();
+      });
+    });
+
+    document.getElementById('btn-edit-pinned').addEventListener('click', () => {
+      openTextEditor('pinned', boardState.pinnedNote);
+    });
+
+    document.getElementById('btn-add-sticky').addEventListener('click', () => {
+      openTextEditor('new', '', '#fef08a');
+    });
+
+    document.getElementById('btn-text-cancel').addEventListener('click', () => {
+      textModal.classList.add('hidden');
+      textModal.classList.remove('flex');
+    });
+
+    document.getElementById('btn-text-save').addEventListener('click', () => {
+      const val = textInput.value.trim();
+      if (editingStickyTarget === 'pinned') {
+        boardState.pinnedNote = val || '今天也要開心喔！💕';
+      } else if (editingStickyTarget === 'new') {
+        if (val) {
+          boardState.stickies.push({
+            id: 'st_' + Date.now().toString(36),
+            x: 20 + Math.floor(Math.random() * 110),
+            y: 20 + Math.floor(Math.random() * 110),
+            text: val,
+            color: selectedStickyColor,
+            likes: 0,
+            author: config.myRole
+          });
+        }
+      } else {
+        const target = boardState.stickies.find(s => s.id === editingStickyTarget);
+        if (target && val) {
+          target.text = val;
+          target.color = selectedStickyColor;
+        }
+      }
+      textModal.classList.add('hidden');
+      textModal.classList.remove('flex');
+      refreshAllUI();
+      pushStateToCloud(true);
+    });
+
+    document.getElementById('btn-export-widget').addEventListener('click', () => {
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 800;
+      exportCanvas.height = 820;
+      const eCtx = exportCanvas.getContext('2d');
+
+      eCtx.fillStyle = '#fff9f5';
+      eCtx.fillRect(0, 0, 800, 820);
+
+      eCtx.fillStyle = '#ffffff';
+      eCtx.beginPath();
+      eCtx.roundRect(32, 32, 736, 175, 28);
+      eCtx.fill();
+      eCtx.strokeStyle = '#ffe4e6';
+      eCtx.lineWidth = 3;
+      eCtx.stroke();
+
+      const days = document.getElementById('days-counter').textContent;
+      eCtx.fillStyle = '#ff5e7e';
+      eCtx.font = '900 38px "Noto Sans TC", sans-serif';
+      eCtx.fillText(`💕 在一起第 ${days} 天`, 60, 92);
+
+      eCtx.fillStyle = '#44403c';
+      eCtx.font = '700 22px "Noto Sans TC", sans-serif';
+      eCtx.fillText(`${config.nameP1}：${boardState.statusP1}    |    ${config.nameP2}：${boardState.statusP2}`, 60, 140);
+
+      eCtx.fillStyle = '#b45309';
+      eCtx.font = '700 20px "Noto Sans TC", sans-serif';
+      eCtx.fillText(`📌 ${boardState.pinnedNote}`, 60, 180);
+
+      eCtx.save();
+      eCtx.beginPath();
+      eCtx.roundRect(32, 230, 736, 552, 28);
+      eCtx.clip();
+      eCtx.fillStyle = '#ffffff';
+      eCtx.fillRect(32, 230, 736, 552);
+
+      eCtx.translate(32, 230);
+      for (const s of boardState.strokes) {
+        drawSingleStroke(eCtx, s, 736, 552);
+      }
+      eCtx.restore();
+
+      eCtx.strokeStyle = '#ffe4e6';
+      eCtx.lineWidth = 3;
+      eCtx.beginPath();
+      eCtx.roundRect(32, 230, 736, 552, 28);
+      eCtx.stroke();
+
+      const link = document.createElement('a');
+      link.download = `我們的小白板_${new Date().toISOString().slice(0, 10)}.png`;
+      link.href = exportCanvas.toDataURL('image/png');
+      link.click();
+      showToast('已匯出高清小工具紀念圖卡！');
+    });
+
+    const settingsModal = document.getElementById('settings-modal');
+
+    function openSettingsModal() {
+      document.getElementById('set-name-p1').value = config.nameP1;
+      document.getElementById('set-name-p2').value = config.nameP2;
+      document.getElementById('set-anniversary').value = config.anniversary;
+      document.getElementById('set-pin').value = config.pin;
+      document.getElementById('set-room-id').value = config.roomId;
+      document.getElementById('set-firebase-raw').value = config.firebaseConfig
+        ? JSON.stringify(config.firebaseConfig, null, 2)
+        : '';
+      settingsModal.classList.remove('hidden');
+      settingsModal.classList.add('flex');
+    }
+
+    document.getElementById('btn-open-settings').addEventListener('click', openSettingsModal);
+    document.getElementById('btn-open-settings-badge').addEventListener('click', openSettingsModal);
+    document.getElementById('btn-close-settings').addEventListener('click', () => {
+      settingsModal.classList.add('hidden');
+      settingsModal.classList.remove('flex');
+    });
+
+    document.getElementById('btn-toggle-guide').addEventListener('click', () => {
+      document.getElementById('firebase-guide-box').classList.toggle('hidden');
+    });
+
+    document.getElementById('btn-save-settings').addEventListener('click', () => {
+      config.nameP1 = document.getElementById('set-name-p1').value.trim() || '👦 男友';
+      config.nameP2 = document.getElementById('set-name-p2').value.trim() || '👧 女友';
+      config.anniversary = document.getElementById('set-anniversary').value || config.anniversary;
+      const pinVal = document.getElementById('set-pin').value.trim();
+      config.pin = /^\d{4}$/.test(pinVal) ? pinVal : '';
+      config.roomId = document.getElementById('set-room-id').value.trim() || 'our-secret-room';
+
+      const rawFb = document.getElementById('set-firebase-raw').value.trim();
+      if (rawFb) {
+        const parsed = parseFirebaseConfigInput(rawFb);
+        if (!parsed) {
+          showToast('Firebase 設定格式無法辨識，請確認包含 apiKey 與 databaseURL');
+          return;
+        }
+        config.firebaseConfig = parsed;
+      } else {
+        config.firebaseConfig = null;
+      }
+
+      saveLocalData();
+      settingsModal.classList.add('hidden');
+      settingsModal.classList.remove('flex');
+      refreshAllUI();
+      connectFirebase();
+      showToast('設定已儲存！');
+    });
+
+    loadLocalData();
+    initBrushColors();
+    resizeBoardCanvas();
+    refreshAllUI();
+    connectFirebase();
+  </script>
+</body>
+</html>
