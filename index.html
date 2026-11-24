@@ -111,6 +111,28 @@
       background-color: #fff1f2;
       transform: scale(0.95);
     }
+    /* 白板全螢幕模式樣式 */
+    #board-section.board-fullscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      border-radius: 0;
+      border: none;
+      padding: 12px;
+      padding-top: max(12px, env(safe-area-inset-top));
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      background-color: #fff9f5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100dvh;
+    }
+    #board-section.board-fullscreen #board-canvas-wrap {
+      aspect-ratio: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+    }
     #board-canvas {
       touch-action: none;
       user-select: none;
@@ -148,7 +170,6 @@
     <h1 style="font-size:22px;font-weight:900;color:#292524;margin:0 0 4px 0;">我們的小白板</h1>
     <p id="pin-hint-text" style="font-size:12px;color:#78716c;margin:0 0 18px 0;">輸入兩人專屬密碼解鎖（預設 0520）</p>
 
-    <!-- 密碼圓點顯示 -->
     <div id="pin-dots" style="display:flex;gap:14px;margin-bottom:20px;">
       <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;transition:all 0.15s;"></span>
       <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;transition:all 0.15s;"></span>
@@ -156,7 +177,6 @@
       <span style="width:14px;height:14px;border-radius:50%;border:2px solid #fda4af;display:inline-block;transition:all 0.15s;"></span>
     </div>
 
-    <!-- 數字鍵盤 -->
     <div class="keypad-grid">
       <button type="button" data-num="1" class="pin-btn">1</button>
       <button type="button" data-num="2" class="pin-btn">2</button>
@@ -257,11 +277,11 @@
       </div>
     </section>
 
-    <!-- 2. 互動塗鴉白板區 -->
-    <section class="bg-white rounded-3xl p-3 shadow-sm border-2 border-rose-100 flex flex-col gap-2.5">
-      <div class="flex items-center justify-between px-1">
+    <!-- 2. 互動塗鴉白板區（支援全螢幕放大＋雙指縮放平移） -->
+    <section id="board-section" class="bg-white rounded-3xl p-3 shadow-sm border-2 border-rose-100 flex flex-col gap-2.5">
+      <div class="flex items-center justify-between px-1 shrink-0">
         <div class="flex items-center gap-1.5">
-          <span class="text-sm font-extrabold text-stone-800">🎨 雙人即時塗鴉板</span>
+          <span class="text-sm font-extrabold text-stone-800">🎨 塗鴉白板</span>
           <span id="board-save-badge" class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">已同步</span>
         </div>
         <div class="flex items-center gap-1">
@@ -271,18 +291,36 @@
           <button id="btn-board-clear" title="清空畫布" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-500 transition">
             <i data-lucide="trash-2" class="w-4 h-4"></i>
           </button>
-          <button id="btn-sync-now" class="px-2.5 py-1 rounded-xl bg-[#ff6b6b] hover:bg-[#ff5252] text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition">
-            <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
-            <span>立即同步</span>
+          <button id="btn-toggle-fullscreen" title="切換全螢幕塗鴉" class="px-2.5 py-1.5 rounded-xl bg-stone-800 text-white text-xs font-bold flex items-center gap-1 active:scale-95 transition">
+            <i id="fullscreen-icon" data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+            <span id="fullscreen-label">全螢幕</span>
+          </button>
+          <button id="btn-sync-now" title="立即同步" class="p-1.5 rounded-xl bg-[#ff6b6b] hover:bg-[#ff5252] text-white shadow-2xs active:scale-95 transition">
+            <i data-lucide="cloud-upload" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
 
-      <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-white">
+      <!-- 畫布容器（含縮放倍率重設懸浮鈕與操作提示） -->
+      <div id="board-canvas-wrap" class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-white">
         <canvas id="board-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+        <!-- 雙指縮放控制浮標 -->
+        <div class="absolute top-2.5 right-2.5 flex items-center gap-1.5 z-10">
+          <button id="btn-zoom-out" title="縮小" class="w-7 h-7 rounded-full bg-white/90 border border-stone-200 shadow-xs text-stone-700 font-bold text-sm flex items-center justify-center active:scale-90">－</button>
+          <button id="btn-zoom-reset" title="重設縮放與位置" class="px-2.5 h-7 rounded-full bg-stone-800/80 text-white text-[11px] font-mono font-bold shadow-xs backdrop-blur-xs active:scale-95">
+            1.0x ⟲
+          </button>
+          <button id="btn-zoom-in" title="放大" class="w-7 h-7 rounded-full bg-white/90 border border-stone-200 shadow-xs text-stone-700 font-bold text-sm flex items-center justify-center active:scale-90">＋</button>
+        </div>
+
+        <div class="absolute bottom-2 left-2.5 pointer-events-none bg-white/80 backdrop-blur-xs px-2 py-0.5 rounded-full text-[10px] font-semibold text-stone-400 border border-stone-100">
+          單指塗鴉・雙指縮放與拖曳移動
+        </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+      <!-- 畫筆工具列 -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5 shrink-0">
         <div id="brush-colors" class="flex items-center gap-1.5"></div>
 
         <div class="flex items-center gap-1 bg-stone-100 p-1 rounded-xl">
@@ -410,7 +448,7 @@
     已更新
   </div>
 
-  <!-- ==================== 密碼鎖純原生即時啟動腳本（防卡死強化版） ==================== -->
+  <!-- ==================== 密碼鎖純原生即時啟動腳本 ==================== -->
   <script>
     (function initFastLock() {
       let enteredPin = '';
@@ -423,7 +461,7 @@
           const raw = localStorage.getItem(CONFIG_KEY);
           if (!raw) return '0520';
           const saved = JSON.parse(raw);
-          if (saved.pin === '') return ''; // 使用者主動關閉密碼鎖
+          if (saved.pin === '') return '';
           if (typeof saved.pin === 'string' && /^\d{4}$/.test(saved.pin.trim())) {
             return saved.pin.trim();
           }
@@ -459,7 +497,7 @@
 
         if (enteredPin.length === 4) {
           const target = getTargetPin();
-          if (enteredPin === target || enteredPin === '0520' && target === '') {
+          if (enteredPin === target || (enteredPin === '0520' && target === '')) {
             lockScreen.classList.add('hidden-lock');
           } else {
             document.getElementById('pin-error').textContent = '密碼不正確，請再試一次';
@@ -484,7 +522,6 @@
         updateDots();
       });
 
-      // 保險重設按鈕：若忘記密碼或本機資料異常，點一下立刻重設為 0520 並解鎖
       document.getElementById('btn-reset-pin').addEventListener('click', () => {
         try {
           const saved = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
@@ -501,7 +538,7 @@
     })();
   </script>
 
-  <!-- ==================== 應用程式主邏輯（整合 Firebase Realtime Database） ==================== -->
+  <!-- ==================== 應用程式主邏輯（整合 Firebase + 全螢幕 + 雙指縮放平移） ==================== -->
   <script type="module">
     import { initializeApp, deleteApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
@@ -514,7 +551,6 @@
     const BRUSH_COLORS = ['#2d2624', '#ff5e7e', '#ff8c42', '#eab308', '#22c55e', '#3b82f6', '#a855f7', '#ffffff'];
     const BRUSH_SIZES = [3, 6, 12, 20];
 
-    // 預設直接填入您們建好的 Firebase 資料庫連線資訊
     const DEFAULT_FIREBASE = {
       apiKey: "123",
       databaseURL: "https://love-7ef0f-default-rtdb.firebaseio.com"
@@ -548,12 +584,17 @@
     let isRemoteUpdating = false;
     let autoSyncTimer = null;
 
+    // 畫筆與視角縮放平移狀態
     const drawState = {
       tool: 'pen',
       color: '#ff5e7e',
       sizeIndex: 1,
       isDrawing: false,
-      currentStroke: null
+      currentStroke: null,
+      scale: 1,
+      panX: 0,
+      panY: 0,
+      isFullscreen: false
     };
 
     function loadLocalData() {
@@ -756,16 +797,89 @@
       });
     });
 
+    // ==================== 畫布引擎（支援全螢幕切換＋雙指縮放平移） ====================
     const canvas = document.getElementById('board-canvas');
     const ctx = canvas.getContext('2d');
+    const boardSection = document.getElementById('board-section');
+
+    function updateZoomBadge() {
+      document.getElementById('btn-zoom-reset').textContent = `${drawState.scale.toFixed(1)}x ⟲`;
+    }
+
+    function clampPan() {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      const minPanX = rect.width * (1 - drawState.scale);
+      const minPanY = rect.height * (1 - drawState.scale);
+      drawState.panX = Math.min(0, Math.max(minPanX, drawState.panX));
+      drawState.panY = Math.min(0, Math.max(minPanY, drawState.panY));
+    }
+
+    function setZoomAroundPoint(newScale, cx, cy) {
+      const clamped = Math.min(4.0, Math.max(1.0, newScale));
+      if (clamped === 1.0) {
+        drawState.scale = 1.0;
+        drawState.panX = 0;
+        drawState.panY = 0;
+      } else {
+        const worldX = (cx - drawState.panX) / drawState.scale;
+        const worldY = (cy - drawState.panY) / drawState.scale;
+        drawState.scale = clamped;
+        drawState.panX = cx - worldX * clamped;
+        drawState.panY = cy - worldY * clamped;
+        clampPan();
+      }
+      updateZoomBadge();
+      renderCanvas();
+    }
+
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      const rect = canvas.getBoundingClientRect();
+      setZoomAroundPoint(drawState.scale + 0.4, rect.width / 2, rect.height / 2);
+    });
+
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      const rect = canvas.getBoundingClientRect();
+      setZoomAroundPoint(drawState.scale - 0.4, rect.width / 2, rect.height / 2);
+    });
+
+    document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+      drawState.scale = 1.0;
+      drawState.panX = 0;
+      drawState.panY = 0;
+      updateZoomBadge();
+      renderCanvas();
+      showToast('已重設畫布視角為 1.0x');
+    });
+
+    document.getElementById('btn-toggle-fullscreen').addEventListener('click', () => {
+      drawState.isFullscreen = !drawState.isFullscreen;
+      const label = document.getElementById('fullscreen-label');
+      const icon = document.getElementById('fullscreen-icon');
+      if (drawState.isFullscreen) {
+        boardSection.classList.add('board-fullscreen');
+        document.body.style.overflow = 'hidden';
+        label.textContent = '退出全螢幕';
+        icon.setAttribute('data-lucide', 'minimize-2');
+      } else {
+        boardSection.classList.remove('board-fullscreen');
+        document.body.style.overflow = '';
+        label.textContent = '全螢幕';
+        icon.setAttribute('data-lucide', 'maximize-2');
+      }
+      if (window.lucide) lucide.createIcons();
+      requestAnimationFrame(() => {
+        resizeBoardCanvas();
+      });
+    });
 
     function resizeBoardCanvas() {
       const rect = canvas.getBoundingClientRect();
-      if (!rect.width) return;
+      if (!rect.width || !rect.height) return;
       const dpr = window.devicePixelRatio || 1;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      clampPan();
       renderCanvas();
     }
     window.addEventListener('resize', resizeBoardCanvas);
@@ -809,11 +923,16 @@
       e.target.textContent = `${BRUSH_SIZES[drawState.sizeIndex]}px`;
     });
 
-    function getNormalizedPoint(e) {
+    // 換算目前縮放與平移後的正規化邏輯座標 (0~1000)
+    function clientToNormalizedPoint(clientX, clientY) {
       const rect = canvas.getBoundingClientRect();
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const worldX = (localX - drawState.panX) / drawState.scale;
+      const worldY = (localY - drawState.panY) / drawState.scale;
       return {
-        x: Math.round(((e.clientX - rect.left) / rect.width) * 1000),
-        y: Math.round(((e.clientY - rect.top) / rect.height) * 1000)
+        x: Math.round((worldX / rect.width) * 1000),
+        y: Math.round((worldY / rect.height) * 1000)
       };
     }
 
@@ -849,12 +968,22 @@
 
     function renderCanvas() {
       const rect = canvas.getBoundingClientRect();
-      if (!rect.width) return;
+      if (!rect.width || !rect.height) return;
+      const dpr = window.devicePixelRatio || 1;
       const w = rect.width;
       const h = rect.height;
 
+      // 先重設為螢幕像素座標系並清空背景
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, w, h);
+
+      // 套用目前的縮放倍率與平移偏移量
+      ctx.save();
+      ctx.translate(drawState.panX, drawState.panY);
+      ctx.scale(drawState.scale, drawState.scale);
+
+      // 繪製點陣網格（隨畫布一起放大縮小）
       ctx.fillStyle = '#f1e8e4';
       for (let x = 20; x < w; x += 24) {
         for (let y = 20; y < h; y += 24) {
@@ -864,16 +993,24 @@
         }
       }
 
+      // 放大時加上淡色邊框提示畫布邊界
+      if (drawState.scale > 1.01) {
+        ctx.strokeStyle = '#fecdd3';
+        ctx.lineWidth = 2 / drawState.scale;
+        ctx.strokeRect(0, 0, w, h);
+      }
+
       for (const s of boardState.strokes) {
         drawSingleStroke(ctx, s, w, h);
       }
       if (drawState.currentStroke) {
         drawSingleStroke(ctx, drawState.currentStroke, w, h);
       }
+      ctx.restore();
     }
 
     function eraseAtNormPoint(nx, ny) {
-      const rad = 36;
+      const rad = 36 / drawState.scale;
       let changed = false;
       const nextStrokes = [];
       for (const s of boardState.strokes) {
@@ -904,9 +1041,46 @@
       return changed;
     }
 
+    // ==================== 多點觸控：單指塗鴉 ＋ 雙指捏合縮放平移 ====================
+    const activePointers = new Map();
+    let pinchState = null;
+
+    function getTwoPointersStats() {
+      const pts = Array.from(activePointers.values());
+      const rect = canvas.getBoundingClientRect();
+      const p1 = { x: pts[0].x - rect.left, y: pts[0].y - rect.top };
+      const p2 = { x: pts[1].x - rect.left, y: pts[1].y - rect.top };
+      return {
+        dist: Math.max(1, Math.hypot(p2.x - p1.x, p2.y - p1.y)),
+        midX: (p1.x + p2.x) / 2,
+        midY: (p1.y + p2.y) / 2
+      };
+    }
+
     canvas.addEventListener('pointerdown', (e) => {
       canvas.setPointerCapture(e.pointerId);
-      const pt = getNormalizedPoint(e);
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      // 若偵測到第二根手指放下：立刻取消誤觸的單指筆畫，切換為雙指縮放與平移模式
+      if (activePointers.size === 2) {
+        drawState.isDrawing = false;
+        drawState.currentStroke = null;
+        renderCanvas();
+
+        const stats = getTwoPointersStats();
+        pinchState = {
+          startDist: stats.dist,
+          startScale: drawState.scale,
+          worldMidX: (stats.midX - drawState.panX) / drawState.scale,
+          worldMidY: (stats.midY - drawState.panY) / drawState.scale
+        };
+        return;
+      }
+
+      if (activePointers.size > 2) return;
+
+      // 單指按下：開始繪圖
+      const pt = clientToNormalizedPoint(e.clientX, e.clientY);
       drawState.isDrawing = true;
       notifyPartnerTyping();
 
@@ -926,8 +1100,31 @@
     });
 
     canvas.addEventListener('pointermove', (e) => {
-      if (!drawState.isDrawing) return;
-      const pt = getNormalizedPoint(e);
+      if (!activePointers.has(e.pointerId)) return;
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      // 雙指縮放與拖曳平移
+      if (activePointers.size === 2 && pinchState) {
+        const stats = getTwoPointersStats();
+        const rawScale = pinchState.startScale * (stats.dist / pinchState.startDist);
+        const clampedScale = Math.min(4.0, Math.max(1.0, rawScale));
+        drawState.scale = clampedScale;
+
+        if (clampedScale === 1.0) {
+          drawState.panX = 0;
+          drawState.panY = 0;
+        } else {
+          drawState.panX = stats.midX - pinchState.worldMidX * clampedScale;
+          drawState.panY = stats.midY - pinchState.worldMidY * clampedScale;
+          clampPan();
+        }
+        updateZoomBadge();
+        renderCanvas();
+        return;
+      }
+
+      if (!drawState.isDrawing || activePointers.size !== 1) return;
+      const pt = clientToNormalizedPoint(e.clientX, e.clientY);
       notifyPartnerTyping();
 
       if (drawState.tool === 'eraser') {
@@ -937,7 +1134,7 @@
 
       if (drawState.currentStroke) {
         const last = drawState.currentStroke.pts[drawState.currentStroke.pts.length - 1];
-        if (Math.hypot(pt.x - last.x, pt.y - last.y) >= 3) {
+        if (Math.hypot(pt.x - last.x, pt.y - last.y) >= 2) {
           drawState.currentStroke.pts.push(pt);
           renderCanvas();
         }
@@ -945,8 +1142,12 @@
     });
 
     function endCanvasPointer(e) {
+      activePointers.delete(e.pointerId);
+      if (activePointers.size < 2) {
+        pinchState = null;
+      }
+
       if (!drawState.isDrawing) return;
-      canvas.releasePointerCapture(e.pointerId);
       drawState.isDrawing = false;
 
       if (drawState.tool === 'eraser') {
@@ -969,6 +1170,14 @@
     canvas.addEventListener('pointerup', endCanvasPointer);
     canvas.addEventListener('pointercancel', endCanvasPointer);
 
+    // 電腦版滑鼠滾輪支援縮放
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const delta = e.deltaY < 0 ? 0.25 : -0.25;
+      setZoomAroundPoint(drawState.scale + delta, e.clientX - rect.left, e.clientY - rect.top);
+    }, { passive: false });
+
     document.getElementById('btn-board-undo').addEventListener('click', () => {
       if (boardState.strokes.length === 0) return;
       boardState.strokes.pop();
@@ -989,6 +1198,7 @@
       showToast('已強制推送最新畫面');
     });
 
+    // ==================== 彩色便利貼留言牆 ====================
     const stickyArea = document.getElementById('sticky-board-area');
     let editingStickyTarget = null;
     let selectedStickyColor = '#fef08a';
